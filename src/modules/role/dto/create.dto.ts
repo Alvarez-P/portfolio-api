@@ -1,5 +1,4 @@
 import { IsNotEmpty } from 'class-validator'
-// import { Details } from '../../detail/details.entity'
 
 export class CreateRoleDto {
   @IsNotEmpty()
@@ -7,7 +6,4 @@ export class CreateRoleDto {
 
   @IsNotEmpty()
   description: string
-
-  @IsNotEmpty()
-  password: string
 }

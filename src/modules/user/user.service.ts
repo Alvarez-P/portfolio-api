@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { getConnection } from 'typeorm'
 import { Role } from '../role/role.entity'
 import { RoleRepository } from '../role/role.repository'
-import { InputUserDto } from './dto/input.dto'
+import { CreateUserDto } from './dto/create.dto'
 import { User } from './user.entity'
 import { UserRepository } from './user.repository'
 import * as bcrypt from 'bcrypt'
@@ -25,13 +25,16 @@ export class UserService {
     })
   }
 
-  getAll(): Promise<User[]> {
-    return this._userRepository.find({
-      where: { isActive: true }
+  getAll(limit: number, offset: number): Promise<[User[], number]> {
+    return this._userRepository.findAndCount({
+      where: { isActive: true },
+      order: { username: 'DESC' },
+      take: limit,
+      skip: offset
     })
   }
 
-  async create(user: InputUserDto): Promise<User> {
+  async create(user: CreateUserDto): Promise<User> {
     const repository = await getConnection().getRepository(Role)
     const defaultRole = await repository.findOne({ where: { name: 'USER' } })
     user.password = await bcrypt.hash(
@@ -44,7 +47,7 @@ export class UserService {
     })
   }
 
-  async update(id: string, user: InputUserDto): Promise<void> {
+  async update(id: string, user: CreateUserDto): Promise<void> {
     if (user.password)
       user.password = await bcrypt.hash(
         user.password,

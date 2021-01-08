@@ -14,7 +14,7 @@ export interface Response {
 
 export interface GetListResponse<T> {
   data: T
-  page: number
+  offset: number
   count: number
 }
 

@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsEmail, Length, Matches } from 'class-validator'
 // import { Details } from '../../detail/details.entity'
 
-export class InputUserDto {
+export class CreateUserDto {
   @IsNotEmpty()
   @Length(10, 20)
   username: string
