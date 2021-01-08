@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { getConnection } from 'typeorm'
+import { getConnection, UpdateResult } from 'typeorm'
 import { Role } from '../role/role.entity'
 import { RoleRepository } from '../role/role.repository'
 import { CreateUserDto } from './dto/create.dto'
@@ -47,17 +47,17 @@ export class UserService {
     })
   }
 
-  async update(id: string, user: CreateUserDto): Promise<void> {
+  async update(id: string, user: CreateUserDto): Promise<UpdateResult> {
     if (user.password)
       user.password = await bcrypt.hash(
         user.password,
         parseInt(process.env.BCRYPT_HASH_ROUND)
       )
-    await this._userRepository.update(id, user)
+    return this._userRepository.update(id, user)
   }
 
-  async delete(id: string): Promise<void> {
-    await this._userRepository.update(id, { isActive: false })
+  delete(id: string): Promise<UpdateResult> {
+    return this._userRepository.update(id, { isActive: false })
   }
 
   async setRoleToUser(user: User, roleId: string): Promise<void> {
