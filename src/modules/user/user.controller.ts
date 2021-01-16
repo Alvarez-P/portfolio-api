@@ -6,7 +6,6 @@ import {
   NotFoundException,
   Param,
   ParseUUIDPipe,
-  Post,
   Put,
   Query
 } from '@nestjs/common'
@@ -16,6 +15,7 @@ import {
   GetOneResponse
 } from '../../interceptors/response.interceptor'
 import { CreateUserDto } from './dto/create.dto'
+import { QueryDto } from './dto/queries.dto'
 import { User } from './user.entity'
 import { UserService } from './user.service'
 
@@ -34,17 +34,10 @@ export class UserController {
 
   @Get()
   async getUsers(
-    @Query('limit') limit = 20,
-    @Query('offset') offset = 0
+    @Query() { offset = 0, limit = 20, sort = 'username' }: QueryDto
   ): Promise<GetListResponse<User[]>> {
-    const [users, count] = await this._userService.getAll(limit, offset)
+    const [users, count] = await this._userService.getAll(limit, offset, sort)
     return { data: users, offset, count }
-  }
-
-  @Post()
-  async createUser(@Body() user: CreateUserDto): Promise<Response> {
-    const created = await this._userService.create(user)
-    return { message: 'Created', id: created.id }
   }
 
   @Put(':id')

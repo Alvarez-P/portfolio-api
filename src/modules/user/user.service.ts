@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { getConnection, UpdateResult } from 'typeorm'
-import { Role } from '../role/role.entity'
+import { UpdateResult } from 'typeorm'
 import { RoleRepository } from '../role/role.repository'
 import { CreateUserDto } from './dto/create.dto'
 import { User } from './user.entity'
 import { UserRepository } from './user.repository'
+import { Keys } from 'src/config/config.keys'
+import { ConfigService } from 'src/config/config.service'
 import * as bcrypt from 'bcrypt'
 import * as dotenv from 'dotenv'
 dotenv.config()
@@ -16,7 +17,8 @@ export class UserService {
     @InjectRepository(UserRepository)
     private readonly _userRepository: UserRepository,
     @InjectRepository(RoleRepository)
-    private readonly _roleRepository: RoleRepository
+    private readonly _roleRepository: RoleRepository,
+    private readonly _configService: ConfigService
   ) {}
 
   getOne(id: string): Promise<User> {
@@ -25,33 +27,25 @@ export class UserService {
     })
   }
 
-  getAll(limit: number, offset: number): Promise<[User[], number]> {
-    return this._userRepository.findAndCount({
-      where: { isActive: true },
-      order: { username: 'DESC' },
-      take: limit,
-      skip: offset
-    })
-  }
-
-  async create(user: CreateUserDto): Promise<User> {
-    const repository = await getConnection().getRepository(Role)
-    const defaultRole = await repository.findOne({ where: { name: 'USER' } })
-    user.password = await bcrypt.hash(
-      user.password,
-      parseInt(process.env.BCRYPT_HASH_ROUND)
-    )
-    return this._userRepository.save({
-      ...user,
-      roles: [defaultRole]
-    })
+  getAll(
+    limit: number,
+    offset: number,
+    sort: string
+  ): Promise<[User[], number]> {
+    return this._userRepository
+      .createQueryBuilder()
+      .where('"isActive" = :isActive', { isActive: true })
+      .orderBy(sort, 'ASC')
+      .limit(limit)
+      .offset(offset)
+      .getManyAndCount()
   }
 
   async update(id: string, user: CreateUserDto): Promise<UpdateResult> {
     if (user.password)
       user.password = await bcrypt.hash(
         user.password,
-        parseInt(process.env.BCRYPT_HASH_ROUND)
+        parseInt(this._configService.get(Keys.BCRYPT_HASH_ROUND))
       )
     return this._userRepository.update(id, user)
   }
@@ -60,7 +54,7 @@ export class UserService {
     return this._userRepository.update(id, { isActive: false })
   }
 
-  async setRoleToUser(user: User, roleId: string): Promise<void> {
+  async setRoleToUser(user: User, roleId: string): Promise<User> {
     const roleExist = await this._roleRepository.findOne(roleId, {
       where: { isActive: true }
     })
@@ -68,6 +62,6 @@ export class UserService {
       throw new NotFoundException('Role does not exist')
     }
     user.roles.push(roleExist)
-    await this._userRepository.save(user)
+    return this._userRepository.save(user)
   }
 }

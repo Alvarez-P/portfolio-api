@@ -1,23 +1,32 @@
 @port = 5000
 @baseURL = http://127.0.0.1:{{port}}/api
 
-## Home
-# GET {{baseURL}}
+### Home
+GET {{baseURL}}
 
-## GET users
-# GET {{baseURL}}/users?offset=1
+### GET users
+GET {{baseURL}}/users?sort=email
 
-## POST user
-# POST {{baseURL}}/users
-# Content-Type: application/json
+### POST signup
+POST {{baseURL}}/auth/signup
+Content-Type: application/json
 
-# {
-#     "username": "Esteban Pacheco",
-#     "email": "ealvarez@gmail.com",
-#     "password": "aeAP1998!"
-# }
+{
+    "username": "Adolfo Pacheco",
+    "email": "apacheco@gmail.com",
+    "password": "aeAP1998!"
+}
 
-## POST roles
+### POST signin
+POST {{baseURL}}/auth/signin
+Content-Type: application/json
+
+{
+    "username": "Adolfo Pacheco",
+    "password": "aeAP1998!"
+}
+
+### POST roles
 POST {{baseURL}}/roles
 Content-Type: application/json
 

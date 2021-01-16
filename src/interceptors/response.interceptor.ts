@@ -12,6 +12,10 @@ export interface Response {
   id?: string
 }
 
+export interface SigninResponse {
+  access_token: string
+}
+
 export interface GetListResponse<T> {
   data: T
   offset: number
