@@ -7,8 +7,8 @@ import {
 import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import { compare } from 'bcrypt'
-import { SigninResponse } from 'src/interceptors/response.interceptor'
-import { RoleType } from '../role/role.enum'
+import { ISigninResponse } from 'src/interceptors/response.interceptor'
+import { ERoleType } from '../role/role.enum'
 import { User } from '../user/user.entity'
 import { AuthRepository } from './auth.repository'
 import { SigninDto, SignupDto } from './dto'
@@ -33,7 +33,7 @@ export class AuthService {
     return this._authRepository.signup(signupDto)
   }
 
-  async signin(signinDto: SigninDto): Promise<SigninResponse> {
+  async signin(signinDto: SigninDto): Promise<ISigninResponse> {
     const { username, password } = signinDto
     const user = await this._authRepository.findOne({
       relations: ['roles'],
@@ -47,7 +47,7 @@ export class AuthService {
       id: user.id,
       email: user.email,
       username: user.username,
-      roles: user.roles.map((role) => role.name as RoleType)
+      roles: user.roles.map((role) => role.name as ERoleType)
     }
     return { access_token: this._jwtService.sign(payload) }
   }

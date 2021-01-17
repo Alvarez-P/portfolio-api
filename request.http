@@ -1,11 +1,13 @@
 @port = 5000
 @baseURL = http://127.0.0.1:{{port}}/api
+@token = 
 
 ### Home
 GET {{baseURL}}
 
 ### GET users
-GET {{baseURL}}/users?sort=email
+GET {{baseURL}}/users/6fec9ba6-cf96-480b-9cdd-bb9b3f9e937b
+Authorization: Bearer {{token}}
 
 ### POST signup
 POST {{baseURL}}/auth/signup
@@ -34,3 +36,11 @@ Content-Type: application/json
     "name": "ADMIN",
     "description": "Administrator role with all permissions"
 }
+
+### GET roles
+GET {{baseURL}}/roles
+Authorization: Bearer {{token}}
+
+### POST set role
+POST {{baseURL}}/users/6fec9ba6-cf96-480b-9cdd-bb9b3f9e937b/setRole/2ac1a736-fd66-4a95-8de4-4b6440058fc5
+Authorization: Bearer {{token}}

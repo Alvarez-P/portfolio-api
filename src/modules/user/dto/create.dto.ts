@@ -1,6 +1,4 @@
 import { IsNotEmpty, IsEmail, Length, Matches } from 'class-validator'
-// import { Details } from '../../detail/details.entity'
-
 export class CreateUserDto {
   @IsNotEmpty()
   @Length(10, 20)
@@ -16,7 +14,4 @@ export class CreateUserDto {
     message: 'Password too weak'
   })
   password: string
-
-  //   @IsNotEmpty()
-  //   details: Details
 }

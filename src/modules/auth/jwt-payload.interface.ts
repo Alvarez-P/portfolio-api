@@ -1,9 +1,9 @@
-import { RoleType } from '../role/role.enum'
+import { ERoleType } from '../role/role.enum'
 
 export interface IJwtPayload {
   id: string
   username: string
   email: string
-  roles: RoleType[]
+  roles: ERoleType[]
   iat?: Date
 }

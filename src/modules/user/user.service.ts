@@ -50,18 +50,24 @@ export class UserService {
     return this._userRepository.update(id, user)
   }
 
-  delete(id: string): Promise<UpdateResult> {
+  async delete(id: string): Promise<UpdateResult> {
+    const userExists = await this._userRepository.findOne(id)
+    if (!userExists) throw new NotFoundException()
     return this._userRepository.update(id, { isActive: false })
   }
 
-  async setRoleToUser(user: User, roleId: string): Promise<User> {
-    const roleExist = await this._roleRepository.findOne(roleId, {
+  async setRoleToUser(userId: string, roleId: string): Promise<User> {
+    const role = await this._roleRepository.findOne(roleId, {
       where: { isActive: true }
     })
-    if (!roleExist) {
-      throw new NotFoundException('Role does not exist')
-    }
-    user.roles.push(roleExist)
+    if (!role) throw new NotFoundException('Role does not exist')
+
+    const user = await this._userRepository.findOne(userId, {
+      where: { isActive: true }
+    })
+    if (!user) throw new NotFoundException('User not found')
+    user.roles.push(role)
+
     return this._userRepository.save(user)
   }
 }

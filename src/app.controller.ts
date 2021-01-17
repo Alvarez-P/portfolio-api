@@ -2,7 +2,7 @@ import { Controller, Get, UseInterceptors } from '@nestjs/common'
 import { AppService } from './app.service'
 import {
   ResponseInterceptor,
-  Response
+  IResponse
 } from './interceptors/response.interceptor'
 
 @Controller()
@@ -11,7 +11,7 @@ export class AppController {
 
   @Get()
   @UseInterceptors(ResponseInterceptor)
-  getHello(): Response {
+  getHello(): IResponse {
     const home = this.appService.getHello()
     return { message: home }
   }

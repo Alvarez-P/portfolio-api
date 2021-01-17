@@ -7,33 +7,33 @@ import {
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
-export interface Response {
+export interface IResponse {
   message: string
   id?: string
 }
 
-export interface SigninResponse {
+export interface ISigninResponse {
   access_token: string
 }
 
-export interface GetListResponse<T> {
-  data: T
+export interface IGetListResponse<T> {
+  data: T[]
   offset: number
   count: number
 }
 
-export interface GetOneResponse<T> {
+export interface IGetOneResponse<T> {
   data: T
 }
 
 @Injectable()
 export class ResponseInterceptor<T>
   implements
-    NestInterceptor<T, Response | GetOneResponse<T> | GetListResponse<T>> {
+    NestInterceptor<T, IResponse | IGetOneResponse<T> | IGetListResponse<T>> {
   intercept(
     context: ExecutionContext,
     next: CallHandler
-  ): Observable<Response | GetOneResponse<T> | GetListResponse<T>> {
+  ): Observable<IResponse | IGetOneResponse<T> | IGetListResponse<T>> {
     return next.handle().pipe(map((data) => data))
   }
 }
