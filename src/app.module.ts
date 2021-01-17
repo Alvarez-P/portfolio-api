@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
 import { ConfigModule } from './config/config.module'
 import { UserModule } from './modules/user/user.module'
 import { Keys } from './config/config.keys'
@@ -10,9 +8,7 @@ import { DatabaseModule } from './database/database.module'
 import { AuthModule } from './modules/auth/auth.module'
 
 @Module({
-  imports: [ConfigModule, UserModule, RoleModule, DatabaseModule, AuthModule],
-  controllers: [AppController],
-  providers: [AppService]
+  imports: [ConfigModule, UserModule, RoleModule, DatabaseModule, AuthModule]
 })
 export class AppModule {
   static PORT: number | string
