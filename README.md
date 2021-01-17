@@ -14,6 +14,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installing :arrow_down:
 
+Create `.env` file with the values of `.env.example` file
+
 ## Installation
 
 ```bash
