@@ -16,13 +16,13 @@ Set your configuration in a `.env` file with the values of `.env.example` file
 
 ### Installing :arrow_down:
 
-## Installation
+### Installation
 
 ```bash
 $ npm install
 ```
 
-## Running the app
+### Running the app
 
 ```bash
 # development
@@ -35,7 +35,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+### Test
 
 ```bash
 # unit tests
@@ -47,10 +47,6 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-
-## Deployment :package:
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With :hammer_and_wrench:
 
