@@ -55,9 +55,10 @@ Add additional notes about how to deploy this on a live system
 ## Built With :hammer_and_wrench:
 
 1. [NodeJS](https://nodejs.org/es/)
-2. [NestJS Documentation](https://nestjs.com/)
-3. [TypeORM Documentation](https://typeorm.io/)
+2. [NestJS](https://nestjs.com/)
+3. [TypeORM](https://typeorm.io/)
 4. [PostgreSQL](https://www.postgresql.org/)
+
 ## Versioning :triangular_flag_on_post:
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
