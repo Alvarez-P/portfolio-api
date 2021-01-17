@@ -12,9 +12,9 @@ These instructions will get you a copy of the project up and running on your loc
 - [Docker](https://docs.docker.com/engine/install/) y [Docker-compose](https://docs.docker.com/compose/install/)
 - [NestJS](https://nestjs.com/)
 
-### Installing :arrow_down:
+Set your configuration in a `.env` file with the values of `.env.example` file
 
-Create `.env` file with the values of `.env.example` file
+### Installing :arrow_down:
 
 ## Installation
 
