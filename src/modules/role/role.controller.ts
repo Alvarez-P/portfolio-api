@@ -17,15 +17,19 @@ import {
   IGetListResponse,
   IGetOneResponse
 } from '../../interceptors/response.interceptor'
+import { Roles } from './decorator/role.decorator'
 import { CreateRoleDto } from './dto/create.dto'
+import { RoleGuard } from './guard/role.guard'
 import { Role } from './role.entity'
+import { ERoleType } from './role.enum'
 import { RoleService } from './role.service'
 
-@UseGuards(AuthGuard('jwt'))
 @Controller('roles')
 export class RoleController {
   constructor(private readonly _roleService: RoleService) {}
 
+  @Roles(ERoleType.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get(':id')
   async getRole(
     @Param('id', new ParseUUIDPipe()) id: string
@@ -35,6 +39,8 @@ export class RoleController {
     return { data: role }
   }
 
+  @Roles(ERoleType.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get()
   async getRoles(
     @Query('limit') limit = 20,
@@ -44,12 +50,16 @@ export class RoleController {
     return { data: roles, offset, count }
   }
 
+  @Roles(ERoleType.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Post()
   async createRole(@Body() role: CreateRoleDto): Promise<IResponse> {
     const created = await this._roleService.create(role)
     return { message: 'Created', id: created.id }
   }
 
+  @Roles(ERoleType.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Put(':id')
   async updateRole(
     @Param('id', new ParseUUIDPipe()) id: string,
@@ -61,6 +71,8 @@ export class RoleController {
     return { message: 'Updated', id }
   }
 
+  @Roles(ERoleType.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Delete(':id')
   async deleteRole(
     @Param('id', new ParseUUIDPipe()) id: string

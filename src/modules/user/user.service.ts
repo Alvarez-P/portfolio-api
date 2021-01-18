@@ -32,13 +32,20 @@ export class UserService {
     offset: number,
     sort: string
   ): Promise<[User[], number]> {
-    return this._userRepository
-      .createQueryBuilder()
-      .where('"isActive" = :isActive', { isActive: true })
-      .orderBy(sort, 'ASC')
-      .limit(limit)
-      .offset(offset)
-      .getManyAndCount()
+    const order = {}
+    order[sort] = 'ASC'
+    return this._userRepository.findAndCount({
+      where: { isActive: true },
+      skip: offset,
+      take: limit,
+      order
+    })
+    // .createQueryBuilder()
+    // .where('"isActive" = :isActive', { isActive: true })
+    // .orderBy(sort, 'ASC')
+    // .limit(limit)
+    // .offset(offset)
+    // .getManyAndCount()
   }
 
   async update(id: string, user: CreateUserDto): Promise<UpdateResult> {

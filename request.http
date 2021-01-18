@@ -1,12 +1,12 @@
 @port = 5000
 @baseURL = http://127.0.0.1:{{port}}/api
-@token = 
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNkMDQ1MWRmLTNhOWUtNGNkNi1iYWVjLTA5NzlmNmU2NmVkNSIsImVtYWlsIjoiYXBhY2hlY29AZ21haWwuY29tIiwidXNlcm5hbWUiOiJBZG9sZm8gUGFjaGVjbyIsInJvbGVzIjpbIlVTRVIiXSwiaWF0IjoxNjEwOTkzOTc4LCJleHAiOjE2MTA5OTc1Nzh9.5nDuBwxzVJsm0b1xCVppSa8CDVnrod_jJKVsG384TKw
 
 ### Home
 GET {{baseURL}}
 
 ### GET users
-GET {{baseURL}}/users/6fec9ba6-cf96-480b-9cdd-bb9b3f9e937b
+GET {{baseURL}}/users
 Authorization: Bearer {{token}}
 
 ### POST signup

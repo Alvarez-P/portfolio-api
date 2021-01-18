@@ -17,6 +17,9 @@ import {
   IGetListResponse,
   IGetOneResponse
 } from '../../interceptors/response.interceptor'
+import { Roles } from '../role/decorator/role.decorator'
+import { RoleGuard } from '../role/guard/role.guard'
+import { ERoleType } from '../role/role.enum'
 import { CreateUserDto } from './dto/create.dto'
 import { QueryDto } from './dto/queries.dto'
 import { User } from './user.entity'
@@ -26,6 +29,7 @@ import { UserService } from './user.service'
 export class UserController {
   constructor(private readonly _userService: UserService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   async getUser(
     @Param('id', ParseUUIDPipe) id: string
@@ -35,7 +39,8 @@ export class UserController {
     return { data: user }
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @Roles(ERoleType.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get()
   async getUsers(
     @Query() { offset = 0, limit = 20, sort = 'username' }: QueryDto
@@ -56,14 +61,16 @@ export class UserController {
     return { message: 'Updated', id }
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @Roles(ERoleType.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Delete(':id')
   async deleteUser(@Param('id', ParseUUIDPipe) id: string): Promise<IResponse> {
     await this._userService.delete(id)
     return { message: 'Deleted', id }
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @Roles(ERoleType.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Post(':userId/setRole/:roleId')
   async setRole(
     @Param('userId', ParseUUIDPipe) userId: string,
