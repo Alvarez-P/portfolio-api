@@ -12,17 +12,17 @@ These instructions will get you a copy of the project up and running on your loc
 - [Docker](https://docs.docker.com/engine/install/) y [Docker-compose](https://docs.docker.com/compose/install/)
 - [NestJS](https://nestjs.com/)
 
+Set your configuration in a `.env` file with the values of `.env.example` file
+
 ### Installing :arrow_down:
 
-Create `.env` file with the values of `.env.example` file
-
-## Installation
+### Installation
 
 ```bash
 $ npm install
 ```
 
-## Running the app
+### Running the app
 
 ```bash
 # development
@@ -35,7 +35,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+### Test
 
 ```bash
 # unit tests
@@ -48,16 +48,13 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Deployment :package:
-
-Add additional notes about how to deploy this on a live system
-
 ## Built With :hammer_and_wrench:
 
 1. [NodeJS](https://nodejs.org/es/)
-2. [NestJS Documentation](https://nestjs.com/)
-3. [TypeORM Documentation](https://typeorm.io/)
+2. [NestJS](https://nestjs.com/)
+3. [TypeORM](https://typeorm.io/)
 4. [PostgreSQL](https://www.postgresql.org/)
+
 ## Versioning :triangular_flag_on_post:
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
